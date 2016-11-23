@@ -7,6 +7,7 @@ the playoffs.
 ## Usage
 
 Gather a CSV in the format specified below. For me I navigated to http://games.espn.com/ffl/schedule?leagueId=myLeagueId where `myLeagueId` is substituted for your own.
+Then I pasted the table results into Google Sheets, adjusted the headers, and exported a CSV.
 
 10000-100000 simulations are recommended to get an accurate number
 
