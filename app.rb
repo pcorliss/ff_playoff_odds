@@ -36,36 +36,6 @@ get '/leagues/:league_key' do
   @scores.to_json
 end
 
-get '/check' do
-  league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues')
-  #require 'pry'
-  #binding.pry
-  leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
-
-
-  require 'pry'
-  binding.pry
-
-
-  # Week 8
-  #h = Hash.from_xml(token.get('https://fantasysports.yahooapis.com/fantasy/v2/league/371.l.1048861/scoreboard;week=8').body)
-  #h['fantasy_content']['league']['scoreboard']['matchups']['matchup'].first['teams']['team'].first['team_points']
-
-
-  ##@leagues = token.get("https://query.yahooapis.com/v1/yql?q=select%20*%20from%20fantasysports.leagues%20where%20league_key%3D'371.l.1048861'&diagnostics=true&format=json")
-  #@leagues = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams')
-  #require 'pry'
-  #binding.pry
-
-  #"pry"
-  #@leagues = token.get("https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams")
-  #@leagues = token.get("https://fantasysports.yahooapis.com/fantasy/v2/;use_login=1//")
-  #haml :check
-  #content_type 'text/xml'
-  #@leagues.body
-  #Hash.from_xml(@leagues.body).to_json
-end
-
 get '/authorize' do
   redirect client.auth_code.authorize_url(:redirect_uri => redirect_uri)
 end
