@@ -3,6 +3,8 @@ require 'yaml'
 require 'oauth2'
 require 'haml'
 require 'active_support/core_ext/hash'
+require 'csv'
+
 require_relative 'helpers.rb'
 
 set    :session_secret, session_secret
@@ -27,13 +29,33 @@ get '/leagues/:league_key' do
   league_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params['league_key']}")
   @league = Hash.from_xml(league_response.body)['fantasy_content']['league']
   @scores = {}
-  (1...@league['current_week'].to_i).each do |week|
+  (1..@league['end_week'].to_i).each do |week|
     p "Week #{week}"
     scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=#{week}")
     @scores[week] = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup']
   end
-  content_type :json
-  @scores.to_json
+  #require 'pry'
+  #binding.pry
+  CSV.generate do |csv|
+    csv << ['Week','Away Team','Away Owner','at','Team','Owner','Results']
+    @scores.each do |week, matchups|
+      next if matchups.nil?
+      matchups.each do |matchup|
+        home, away = matchup['teams']['team']
+        csv << [
+          week,
+          away['name'],
+          away['managers']['manager']['nickname'],
+          'at',
+          home['name'],
+          home['managers']['manager']['nickname'],
+          "#{away['team_points']['total']}-#{home['team_points']['total']}"
+        ]
+      end
+    end
+  end
+  #content_type :json
+  #@scores.to_json
 end
 
 get '/authorize' do

@@ -5,6 +5,9 @@ require 'pp'
 require 'descriptive_statistics'
 require 'rubystats'
 
+PLAYOFF_SPOTS = ($ARGV[1] || 4).to_i
+ITERATIONS = ($ARGV[0] || 10).to_i
+
 Team = Struct.new(:owner, :name) do
   def scores
     @scores ||= matches.inject([]) do |acc, match|
@@ -121,10 +124,17 @@ $matches = []
 csv_results = CSV.parse(STDIN.read, headers: true)
 
 csv_results.each do |result|
+  next if result.empty?
   week = result["Week"].to_i
-  away_team = result["Away Team"].split('(').first.strip
+  away_team = result["Away Team"]
+  if away_team.include?('(')
+    away_team = away_team.split('(').first.strip
+  end
   away_owner = result["Away Owner"]
-  team = result["Team"].split('(').first.strip
+  team = result["Team"]
+  if team.include?('(')
+    team = team.split('(').first.strip
+  end
   owner = result["Owner"]
   score = result["Results"]
 
@@ -143,8 +153,7 @@ end
 #end
 
 playoff_contenders = {}
-iterations = ($ARGV[0] || 10).to_i
-iterations.times do |i|
+ITERATIONS.times do |i|
   test_matches = $matches.map do |m|
     m = m.clone
     if m.incomplete?
@@ -162,7 +171,7 @@ iterations.times do |i|
   sorted_teams = cloned_teams.sort_by do |t|
     [-t.win_pct, -t.points_for]
   end
-  sorted_teams.first(4).each do |t|
+  sorted_teams.first(PLAYOFF_SPOTS).each do |t|
     playoff_contenders[t] ||= 0
     playoff_contenders[t] += 1
   end
@@ -179,12 +188,12 @@ end
 playoff_contenders.sort_by do |t, v|
   -v
 end.each do |t, v|
-  pct = v.to_f / iterations * 100
+  pct = v.to_f / ITERATIONS * 100
   puts "#{t.name} - %0.2f%" % pct
 end
 
 puts ""
-puts "Iterations: #{iterations}"
+puts "Iterations: #{ITERATIONS}"
 #m = $matches.first
 #pp m
 #m.home_result = 1
