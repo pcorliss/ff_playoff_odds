@@ -25,7 +25,7 @@ get '/leagues' do
   @leagues.to_json
 end
 
-get '/leagues/:league_key' do
+def get_league
   league_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params['league_key']}")
   @league = Hash.from_xml(league_response.body)['fantasy_content']['league']
   @scores = {}
@@ -34,8 +34,17 @@ get '/leagues/:league_key' do
     scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=#{week}")
     @scores[week] = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup']
   end
-  #require 'pry'
-  #binding.pry
+end
+
+get '/leagues/:league_key' do
+  get_league
+  content_type :json
+  @scores.to_json
+end
+
+get '/leagues/:league_key/csv' do
+  get_league
+  content_type 'application/csv'
   CSV.generate do |csv|
     csv << ['Week','Away Team','Away Owner','at','Team','Owner','Results']
     @scores.each do |week, matchups|
@@ -54,8 +63,6 @@ get '/leagues/:league_key' do
       end
     end
   end
-  #content_type :json
-  #@scores.to_json
 end
 
 get '/authorize' do
@@ -67,9 +74,4 @@ get '/oauth2/callback' do
   session[:access_token] = access_token.to_hash
   @message = "Successfully authenticated with the server"
   redirect '/check'
-
-
-  # parsed is a handy method on an OAuth2::Response object that will 
-  # intelligently try and parse the response.body
-  #@email = access_token.get('https://www.googleapis.com/userinfo/email?alt=json').parsed
 end
