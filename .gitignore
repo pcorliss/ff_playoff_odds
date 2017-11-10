@@ -2,3 +2,7 @@ espn-2016-11-22.csv
 btsff-*.csv
 payments-*.csv
 credentials.yaml
+yarn-error.log
+yarn.lock
+public/js/deps*js
+node_modules

@@ -4,6 +4,15 @@ It's quick, dirty, slow, and likely has a few bugs but otherwise works as expect
 Uses win percentage, then points-for as a tie-breaker. Top 4 teams enter
 the playoffs.
 
+## Building
+
+```
+nvm install
+yarn install
+browserify public/js/bundle.js > public/js/deps.dev.js
+browserify public/js/bundle.js | uglifyjs > public/js/deps.min.js
+```
+
 ## Usage
 
 Gather a CSV in the format specified below. For me I navigated to http://games.espn.com/ffl/schedule?leagueId=myLeagueId where `myLeagueId` is substituted for your own.
