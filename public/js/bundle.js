@@ -1,12 +1,9 @@
 // Cribbed from https://stackoverflow.com/questions/7343890/standard-deviation-javascript
 Array.prototype.stanDeviate = function(){
-   var i,j,total = 0, mean = 0, diffSqredArr = [];
-   for(i=0;i<this.length;i+=1){
-       total+=this[i];
-   }
-   mean = total/this.length;
+   var j, diffSqredArr = [];
+
    for(j=0;j<this.length;j+=1){
-       diffSqredArr.push(Math.pow((this[j]-mean),2));
+       diffSqredArr.push(Math.pow((this[j]-this.mean()),2));
    }
    return (Math.sqrt(diffSqredArr.reduce(function(firstEl, nextEl){
             return firstEl + nextEl;
@@ -14,11 +11,11 @@ Array.prototype.stanDeviate = function(){
 };
 
 Array.prototype.mean = function(){
-   var i,total = 0;
-   for(i=0;i<this.length;i+=1){
-       total+=this[i];
-   }
-   return total/this.length;
+  var i,total = 0;
+  for(i=0;i<this.length;i+=1){
+    total += Number(this[i]);
+  }
+  return total/this.length;
 };
 
 
@@ -29,8 +26,9 @@ Array.prototype.mean = function(){
 //var variance = stdDev * stdDev;
 //var gaussian = require('gaussian');
 //window.g = gaussian;
+window.gaussian = require('gaussian');
 //var distribution = gaussian(mean, variance);
-//// Take a random sample using inverse transform sampling method. 
+////// Take a random sample using inverse transform sampling method. 
 //var sample = distribution.ppf(Math.random());
 //console.log("Sample: " + sample);
 //
