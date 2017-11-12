@@ -7,7 +7,7 @@ require 'csv'
 
 require_relative 'helpers.rb'
 
-set    :session_secret, session_secret
+set :session_secret, session_secret
 enable :sessions
 
 get '/hello_world' do
@@ -37,8 +37,26 @@ def get_league
 end
 
 get '/leagues/:league_key' do
-  get_league
   content_type :json
+  get_league
+  @scores.to_json
+end
+
+get '/leagues/:league_key/cached' do
+  content_type :json
+
+  #require 'pry'
+  #binding.pry
+  if File.exist? 'scores.json'
+    puts "File Exists"
+    @scores = JSON.parse(File.read 'scores.json')
+  else
+    puts "Doesn't exist writing"
+    File.open 'scores.json', 'w' do |fh|
+      get_league
+      fh.print @scores.to_json
+    end
+  end
   @scores.to_json
 end
 
