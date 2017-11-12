@@ -8,6 +8,7 @@
       this.owner = owner;
       this.name = name;
       this.matches = [];
+      this.ranks = [];
     }
 
     Team.find_or_create = function(teams, team) {
@@ -137,7 +138,24 @@
         matches[i].a_points = 0;
         matches[i].b_points = 0;
       }
-    }
+    };
+
+    Team.comparator = function(a, b) {
+      // Negative is better
+      var a_s = (a.wins() + a.ties() * 0.5);
+      var b_s = (b.wins() + b.ties() * 0.5);
+      if (a_s == b_s) {
+        if (a.points_for() > b.points_for()) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else if (a_s > b_s) {
+        return -1;
+      } else {
+        return 1;
+      }
+    };
 
     return Team;
 
@@ -148,8 +166,8 @@
       this.week = week;
       this.a_team = a_team;
       this.b_team = b_team;
-      this.a_points = a_points;
-      this.b_points = b_points;
+      this.a_points = Number(a_points);
+      this.b_points = Number(b_points);
       this.status = status;
       this.computed = this.incomplete();
     }
@@ -182,7 +200,11 @@
     function Ranker(iterations, playoff_spots, bye_week_spots, scores) {
       this.teams = [];
       this.load(scores);
-      this.compute();
+      for(var i = 0; i < iterations; i++){
+        this.compute();
+        this.standings();
+        this.reset();
+      }
     }
 
     Ranker.prototype.load = function(scores) {
@@ -194,6 +216,7 @@
           }
         }
       }
+      this.probs = Array(this.teams.length - 1);
       return this.teams;
     };
 
@@ -217,6 +240,18 @@
     Ranker.prototype.reset = function() {
       for(var i = 1; i < this.teams.length; i++) {
         this.teams[i].reset();
+      }
+    };
+
+    Ranker.prototype.standings = function() {
+      // clone to avoid having to revert sorting
+      var clone = this.teams.slice(1);
+      // Sort by record (wins, tiesx0.5) then by points for
+      clone.sort(Team.comparator);
+
+      for(var i = 0; i < clone.length; i++) {
+        clone[i].ranks[i] = clone[i].ranks[i] || 0
+        clone[i].ranks[i] += 1;
       }
     };
 
