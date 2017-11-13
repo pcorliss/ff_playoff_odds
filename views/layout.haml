@@ -30,11 +30,13 @@
     %script{:src => "js/deps.dev.js"}
   %body
     = yield
-    
+
     / ! end of #container
     / JavaScript at the bottom for fast page loading
     / Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary
     %script{:src => "//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"}
+    -#%script{:src => '//cdn.jsdelivr.net/npm/vue'}
+    %script{:src => '//cdn.jsdelivr.net/npm/vue@2.5.3/dist/vue.js'}
     %script{:src => "/js/teams.js"}
     %script{:src => "/js/calc.js"}
     -#:javascript

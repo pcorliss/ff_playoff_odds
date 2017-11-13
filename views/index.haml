@@ -1,1 +1,18 @@
 %a{href: '/authorize'} Auth with Yahoo
+
+#app
+  {{ message }}
+
+  %table
+    %tr
+      %th
+        Rankings
+    %tr
+      %th Team
+      %th{'v-for' => '(team, team_id, index) in teams', 'v-if' => 'team'}
+        {{ team_id }}
+    %tr{'v-for' => "(team, team_id, index) in teams", 'v-if' => "team"}
+      %td
+        {{ team.name }}
+      %td{'v-for' => '(rank, idx, index) in team.ranks'}
+        {{ rank ? (parseFloat((rank / (ranker.iterations || 1) * 100)).toFixed(2) + "%") : "" }}

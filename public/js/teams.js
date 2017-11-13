@@ -200,12 +200,18 @@
     function Ranker(iterations, playoff_spots, bye_week_spots, scores) {
       this.teams = [];
       this.load(scores);
+      this.iterations = 0;
+      this.iterate(iterations);
+    }
+
+    Ranker.prototype.iterate = function(iterations) {
+      this.iterations += iterations;
       for(var i = 0; i < iterations; i++){
         this.compute();
         this.standings();
         this.reset();
       }
-    }
+    };
 
     Ranker.prototype.load = function(scores) {
       for (var week in scores) {
@@ -216,7 +222,6 @@
           }
         }
       }
-      this.probs = Array(this.teams.length - 1);
       return this.teams;
     };
 
