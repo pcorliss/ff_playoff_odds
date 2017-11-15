@@ -47,12 +47,13 @@ get '/leagues/:league_key/cached' do
 
   #require 'pry'
   #binding.pry
-  if File.exist? 'scores.json'
+  file_name = "#{params[:league_key]}.json"
+  if File.exist? file_name
     puts "File Exists"
-    @scores = JSON.parse(File.read 'scores.json')
+    @scores = JSON.parse(File.read file_name)
   else
     puts "Doesn't exist writing"
-    File.open 'scores.json', 'w' do |fh|
+    File.open file_name, 'w' do |fh|
       get_league
       fh.print @scores.to_json
     end

@@ -197,7 +197,7 @@
   })();
 
   Ranker = (function() {
-    function Ranker(iterations, playoff_spots, bye_week_spots, scores) {
+    function Ranker(iterations, scores) {
       this.teams = [];
       this.load(scores);
       this.iterations = 0;

@@ -11,11 +11,17 @@ Array.prototype.stanDeviate = function(){
 };
 
 Array.prototype.mean = function(){
+  return this.sum() / this.length;
+};
+
+Array.prototype.sum = function(){
   var i,total = 0;
   for(i=0;i<this.length;i+=1){
-    total += Number(this[i]);
+    if(this[i]){
+      total += Number(this[i]);
+    }
   }
-  return total/this.length;
+  return total;
 };
 
 
