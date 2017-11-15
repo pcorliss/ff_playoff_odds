@@ -19,26 +19,25 @@ get '/' do
 end
 
 get '/leagues' do
-  league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues')
+  league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
   @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
   content_type :json
   @leagues.to_json
 end
 
+def get_scores
+  scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
+  @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
+end
+
 def get_league
-  league_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params['league_key']}")
+  league_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params['league_key']}/settings")
   @league = Hash.from_xml(league_response.body)['fantasy_content']['league']
-  @scores = {}
-  (1..@league['end_week'].to_i).each do |week|
-    p "Week #{week}"
-    scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=#{week}")
-    @scores[week] = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup']
-  end
 end
 
 get '/leagues/:league_key' do
   content_type :json
-  get_league
+  get_scores
   @scores.to_json
 end
 
@@ -54,7 +53,7 @@ get '/leagues/:league_key/cached' do
   else
     puts "Doesn't exist writing"
     File.open file_name, 'w' do |fh|
-      get_league
+      get_scores
       fh.print @scores.to_json
     end
   end
