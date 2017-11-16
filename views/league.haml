@@ -35,13 +35,13 @@
         %th{'v-for' => '(team, team_id, index) in teams', 'v-if' => 'team'}
           {{ team_id }}
     %tbody
-      %tr{'v-for' => "(team, team_id, index) in teams", 'v-if' => "team"}
+      %tr{'v-for' => "(team, team_id, index) in sorted_spots(teams, playoff_spots)", 'v-if' => "team"}
         %th
           {{ team.name }}
         %td{'v-if' => 'playoff_spots > 0'}
-          {{ parseFloat(team.ranks.slice(0, playoff_spots).sum() / (ranker.iterations || 1) * 100).toFixed(2) + "%" }}
+          {{ spots(team.ranks, playoff_spots, ranker.iterations) }}%
         %td{'v-if' => 'bye_week_spots > 0'}
-          {{ parseFloat(team.ranks.slice(0, bye_week_spots).sum() / (ranker.iterations || 1) * 100).toFixed(2) + "%" }}
+          {{ spots(team.ranks, bye_week_spots, ranker.iterations) }}%
         %td{'v-for' => '(rank, idx, index) in team.ranks'}
           {{ rank ? (parseFloat((rank / (ranker.iterations || 1) * 100)).toFixed(2) + "%") : "" }}
 

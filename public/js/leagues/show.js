@@ -11,7 +11,18 @@ $(function() {
       teams: [],
       ranker: {},
       league: {}
+    },
+    methods: {
+      spots: function(ranks, num_spots, iterations) {
+        return parseFloat(ranks.slice(0, num_spots).sum() / (iterations || 1) * 100).toFixed(2);
+      },
+      sorted_spots: function(t, num_spots) {
+        return t.slice().sort(function(a,b){
+          return b.ranks.slice(0, num_spots).sum() - a.ranks.slice(0, num_spots).sum();
+        });
+      }
     }
+
   })
 
   $.getJSON("/leagues.json", function( leagues ) {
@@ -38,7 +49,7 @@ $(function() {
   });
 
   var cached = "/cached"; // null out to load
-  cached = '';
+  //cached = '';
   $.getJSON("/leagues/" + league_key + cached + "/json", function( scores ) {
     console.log("Scores:", scores);
     window.scores = scores;
