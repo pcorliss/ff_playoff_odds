@@ -10,10 +10,6 @@ require_relative 'helpers.rb'
 set :session_secret, session_secret
 enable :sessions
 
-get '/hello_world' do
-  "Hello World!"
-end
-
 get '/' do
   @token = session[:access_token]
   haml :index
@@ -35,27 +31,16 @@ get '/leagues.json' do
   @leagues.to_json
 end
 
-def get_scores
-  scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
-  @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
-end
-
-def get_league
-  league_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params['league_key']}/settings")
-  @league = Hash.from_xml(league_response.body)['fantasy_content']['league']
-end
-
 get '/leagues/:league_key.json' do
   content_type :json
-  get_scores
+  scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
+  @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
   @scores.to_json
 end
 
 get '/leagues/:league_key/cached.json' do
   content_type :json
 
-  #require 'pry'
-  #binding.pry
   file_name = "#{params[:league_key]}.json"
   if File.exist? file_name
     puts "File Exists"
@@ -63,7 +48,8 @@ get '/leagues/:league_key/cached.json' do
   else
     puts "Doesn't exist writing"
     File.open file_name, 'w' do |fh|
-      get_scores
+      scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
+      @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
       fh.print @scores.to_json
     end
   end
@@ -71,7 +57,8 @@ get '/leagues/:league_key/cached.json' do
 end
 
 get '/leagues/:league_key/csv' do
-  get_league
+  league_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params['league_key']}/settings")
+  @league = Hash.from_xml(league_response.body)['fantasy_content']['league']
   content_type 'application/csv'
   CSV.generate do |csv|
     csv << ['Week','Away Team','Away Owner','at','Team','Owner','Results']

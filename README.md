@@ -56,7 +56,9 @@ Week,Away Team,Away Owner,at,Team,Owner,Results
 * Run More Iterations Button
 * Allow saving/caching/sharing of pages
 * Google Analytics
+* Footers and Headers
+* Remove caching and temporary code
 * Convert to entirely client-side - node -?
-* Best Case Scenario Display
+* Best Case Scenario (Beat blank, foo loses, etc..) Display
 * Add Icons/Graphics
 * Allow tweaking of match results

@@ -3,10 +3,15 @@
     .hero-body
       .container
         %nav.columns
+          .column.has-text-centered{'v-if' => 'leagues.length <= 0'}
+            %i.fa.fa-3x.fa-spin.fa-cog{'aria-hidden' => 'true'}
+            %p.title.is-4{style: 'margin-top: 0.25em'}
+              %strong
+                Loading
           %a.column.has-text-centered.league{'v-for' => "(league, idx) in leagues", 'v-bind:href' => "'/leagues/' + league.league_key"}
             %i.fa.fa-3x{'v-bind:class' => 'icons[idx % icons.length]', 'aria-hidden' => 'true'}
             %p.title.is-4{style: 'margin-top: 0.25em'}
               %strong
-              {{ league.name }}
+                {{ league.name }}
 
 %script{:src => "/js/leagues/index.js"}
