@@ -1,4 +1,5 @@
-%a{href: '/authorize'} Auth with Yahoo
+%script
+  var league_key = '#{params[:league_key]}';
 
 #app
   {{ message }}
@@ -25,3 +26,6 @@
           {{ parseFloat(team.ranks.slice(0, bye_week_spots).sum() / (ranker.iterations || 1) * 100).toFixed(2) + "%" }}
         %td{'v-for' => '(rank, idx, index) in team.ranks'}
           {{ rank ? (parseFloat((rank / (ranker.iterations || 1) * 100)).toFixed(2) + "%") : "" }}
+
+%script{:src => "/js/teams.js"}
+%script{:src => "/js/leagues/show.js"}

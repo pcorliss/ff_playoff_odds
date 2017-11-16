@@ -16,12 +16,12 @@ $(function() {
   var btsff = '371.l.1139531'; // BTSFF
   var payments = '371.l.1048861'; // Payments
 
-  $.getJSON("/leagues", function( leagues ) {
+  $.getJSON("/leagues.json", function( leagues ) {
     console.log("leagues:", leagues);
     window.leagues = leagues;
     var league;
     for(var i = 0; i < leagues.length; i++){
-      if(leagues[i].league_key == payments){
+      if(leagues[i].league_key == league_key){
         league = leagues[i];
         break;
       }
@@ -38,7 +38,8 @@ $(function() {
     app.playoff_spots = league.settings.num_playoff_teams;
   });
 
-  $.getJSON("/leagues/" + payments + "/cached", function( scores ) {
+  var cached = "/cached"; // null out to load
+  $.getJSON("/leagues/" + league_key + cached + ".json", function( scores ) {
     console.log("Scores:", scores);
     window.scores = scores;
     app.message = 'Loaded!';

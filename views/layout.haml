@@ -30,19 +30,16 @@
 
     %link{:rel=>"stylesheet", :href=>"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"}
     %link{:rel=>"stylesheet", :href=>"https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css"}
-
-    %script{:src => "js/deps.dev.js"}
+    %script{:src => "//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"}
+    %script{:src => '//cdn.jsdelivr.net/npm/vue@2.5.3/dist/vue.js'}
+    %script{:src => "/js/deps.dev.js"}
   %body
     = yield
 
     / ! end of #container
     / JavaScript at the bottom for fast page loading
     / Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary
-    %script{:src => "//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"}
     -#%script{:src => '//cdn.jsdelivr.net/npm/vue'}
-    %script{:src => '//cdn.jsdelivr.net/npm/vue@2.5.3/dist/vue.js'}
-    %script{:src => "/js/teams.js"}
-    %script{:src => "/js/calc.js"}
     -#:javascript
       -#window.jQuery || document.write('<script src="/js/jquery-1.7.2.min.js"><\/script>')
     -#%script{:src => "js/plugins.js"}

@@ -19,6 +19,15 @@ get '/' do
 end
 
 get '/leagues' do
+  haml :leagues_index
+end
+
+# leagues#show
+get '/leagues/:league_key' do
+  haml :league
+end
+
+get '/leagues.json' do
   league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
   @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
   content_type :json
@@ -35,13 +44,13 @@ def get_league
   @league = Hash.from_xml(league_response.body)['fantasy_content']['league']
 end
 
-get '/leagues/:league_key' do
+get '/leagues/:league_key.json' do
   content_type :json
   get_scores
   @scores.to_json
 end
 
-get '/leagues/:league_key/cached' do
+get '/leagues/:league_key/cached.json' do
   content_type :json
 
   #require 'pry'
@@ -91,5 +100,5 @@ get '/oauth2/callback' do
   access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
   session[:access_token] = access_token.to_hash
   @message = "Successfully authenticated with the server"
-  redirect '/leagues'
+  redirect (session[:last] || '/')
 end

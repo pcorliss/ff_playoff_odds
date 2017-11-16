@@ -14,7 +14,10 @@ def yql(query)
 end
 
 def token
-  redirect '/authorize' unless session[:access_token]
+  unless session[:access_token]
+    session[:last] = URI.parse(request.url).path
+    redirect '/authorize'
+  end
   @token ||= OAuth2::AccessToken.from_hash(client, session[:access_token])
   if @token.expired?
     puts "Refreshing Token!"

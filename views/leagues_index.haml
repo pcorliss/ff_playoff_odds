@@ -1,0 +1,14 @@
+#app
+  %section.hero.is-primary
+    .hero-body
+      .container
+        %nav.columns
+          %a.column.has-text-centered.league{'v-for' => "(league, idx) in leagues", 'v-bind:href' => "'/leagues/' + league.league_key"}
+            %i.fa.fa-3x{'v-bind:class' => 'icons[idx % icons.length]', 'aria-hidden' => 'true'}
+            %p.title.is-4{style: 'margin-top: 0.25em'}
+              %strong
+              {{ league.name }}
+
+
+-#%script{:src => "/js/teams.js"}
+%script{:src => "/js/leagues/index.js"}
