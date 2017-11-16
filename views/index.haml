@@ -1,0 +1,23 @@
+%section.section.is-medium
+  .container
+    %p.title.has-text-centered
+      Fantasy Football Playoff Odds
+    - if @token
+      .hero-buttons
+        %a.button.is-link.is-large{href: '/leagues'}
+          %span.icon
+            %i.fa.fa-fighter-jet
+          %span
+            %strong View Your Leagues
+        %a.button.is-black.is-large{href: '/authorize'}
+          %span.icon
+            %i.fa.fa-yahoo
+          %span
+            %strong Re-Auth with Yahoo!
+    - else
+      .hero-buttons
+        %a.button.is-link.is-large{href: '/authorize'}
+          %span.icon
+            %i.fa.fa-yahoo
+          %span
+            %strong Auth with Yahoo!

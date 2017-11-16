@@ -15,6 +15,7 @@ get '/hello_world' do
 end
 
 get '/' do
+  @token = session[:access_token]
   haml :index
 end
 
@@ -100,5 +101,7 @@ get '/oauth2/callback' do
   access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
   session[:access_token] = access_token.to_hash
   @message = "Successfully authenticated with the server"
-  redirect (session[:last] || '/')
+  next_page = session[:last] || '/leagues'
+  session[:last] = nil
+  redirect next_page
 end

@@ -46,3 +46,17 @@ Week,Away Team,Away Owner,at,Team,Owner,Results
 3,Team T (5-6),R T,at,Team B (4-7),K B,Preview
 3,NationalAnthem Kneelers (3-8),J P,at,Team S (6-5),J S,Preview
 ```
+
+## TODO
+
+* ~Allow selection of league~
+* ~Auth -> League Selection -> Odds~
+* Check for XSS exploits
+* Add Spinners/Loaders
+* Run More Iterations Button
+* Allow saving/caching/sharing of pages
+* Google Analytics
+* Convert to entirely client-side - node -?
+* Best Case Scenario Display
+* Add Icons/Graphics
+* Allow tweaking of match results

@@ -24,6 +24,7 @@ Array.prototype.sum = function(){
   return total;
 };
 
+// Cribbed from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 Array.prototype.shuffle = function(){
   var currentIndex = this.length, temporaryValue, randomIndex;
 
