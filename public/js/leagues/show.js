@@ -9,12 +9,10 @@ $(function() {
       message: 'Hello Vue!',
       s: [],
       teams: [],
-      ranker: {}
+      ranker: {},
+      league: {}
     }
   })
-
-  var btsff = '371.l.1139531'; // BTSFF
-  var payments = '371.l.1048861'; // Payments
 
   $.getJSON("/leagues.json", function( leagues ) {
     console.log("leagues:", leagues);
@@ -26,6 +24,7 @@ $(function() {
         break;
       }
     }
+    app.league = league;
     console.log("League: ", league);
 
     var calc_bye_spots = function(teams) {
@@ -39,7 +38,8 @@ $(function() {
   });
 
   var cached = "/cached"; // null out to load
-  $.getJSON("/leagues/" + league_key + cached + ".json", function( scores ) {
+  cached = '';
+  $.getJSON("/leagues/" + league_key + cached + "/json", function( scores ) {
     console.log("Scores:", scores);
     window.scores = scores;
     app.message = 'Loaded!';
@@ -49,14 +49,20 @@ $(function() {
     app.ranker = window.r;
     app.s = scores;
     console.log(r.teams[8].ranks, r.teams[8]);
-    var steps = 500;
-    var target = 2000;
+    var steps = 543;
+    var target = 20000;
+    var iterating = true;
     var iter = function() {
-      if (r.iterations >= target) { return }
+      if (r.iterations >= target) { iterating = false; return }
       var step = r.iterations + steps > target ? target - r.iterations : steps;
       r.iterate(step);
       setTimeout(iter, 0);
     };
+    $("#more_iterations").click(function(){
+      console.log("Clicked!");
+      target += 10000;
+      if (!iterating) { iterating = true; setTimeout(iter, 10) }
+    });
     setTimeout(iter, 10);
   });
 

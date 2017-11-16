@@ -31,14 +31,14 @@ get '/leagues.json' do
   @leagues.to_json
 end
 
-get '/leagues/:league_key.json' do
+get '/leagues/:league_key/json' do
   content_type :json
   scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
   @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
   @scores.to_json
 end
 
-get '/leagues/:league_key/cached.json' do
+get '/leagues/:league_key/cached/json' do
   content_type :json
 
   file_name = "#{params[:league_key]}.json"
