@@ -4,7 +4,6 @@ payments-*.csv
 credentials.yaml
 yarn-error.log
 yarn.lock
-public/js/deps*js
 node_modules
 scores.json
 371*.json
