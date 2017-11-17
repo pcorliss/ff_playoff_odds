@@ -3,7 +3,6 @@ require 'yaml'
 require 'oauth2'
 require 'haml'
 require 'active_support/core_ext/hash'
-require 'csv'
 
 require_relative 'helpers.rb'
 
@@ -16,11 +15,14 @@ get '/' do
 end
 
 get '/leagues' do
+  token
   haml :leagues_index
 end
 
 # leagues#show
 get '/leagues/:league_key' do
+  validate_league_key
+  token
   haml :league
 end
 
@@ -32,33 +34,17 @@ get '/leagues.json' do
 end
 
 get '/leagues/:league_key/json' do
+  validate_league_key
   content_type :json
   scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
   @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
   @scores.to_json
 end
 
-get '/leagues/:league_key/cached/json' do
-  content_type :json
-
-  file_name = "#{params[:league_key]}.json"
-  if File.exist? file_name
-    puts "File Exists"
-    @scores = JSON.parse(File.read file_name)
-  else
-    puts "Doesn't exist writing"
-    File.open file_name, 'w' do |fh|
-      scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
-      @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
-      fh.print @scores.to_json
-    end
-  end
-  @scores.to_json
-end
-
 get '/leagues/:league_key/csv' do
-  league_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params['league_key']}/settings")
-  @league = Hash.from_xml(league_response.body)['fantasy_content']['league']
+  validate_league_key
+  scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
+  @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
   content_type 'application/csv'
   CSV.generate do |csv|
     csv << ['Week','Away Team','Away Owner','at','Team','Owner','Results']

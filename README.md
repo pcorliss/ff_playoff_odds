@@ -51,14 +51,16 @@ Week,Away Team,Away Owner,at,Team,Owner,Results
 
 * ~Allow selection of league~
 * ~Auth -> League Selection -> Odds~
-* Check for XSS exploits
-* Add Spinners/Loaders
-* Run More Iterations Button
+* ~Check for XSS exploits~
+* ~Add Spinners/Loaders~
+* ~Run More Iterations Button~
+* ~Handle Mid-Event stuff~
+* Get Hosted
 * Allow saving/caching/sharing of pages
-* Google Analytics
-* Footers and Headers
-* Remove caching and temporary code
+* ~Google Analytics~
+* ~Footers and Headers~
+* ~Remove caching and temporary code~
 * Convert to entirely client-side - node -?
 * Best Case Scenario (Beat blank, foo loses, etc..) Display
-* Add Icons/Graphics
+* ~Add Icons/Graphics~
 * Allow tweaking of match results

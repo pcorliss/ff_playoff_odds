@@ -44,17 +44,4 @@ Array.prototype.shuffle = function(){
   return this;
 }
 
-
-
-//var f = [1,2,3,4,5,6,7,8,9];
-//var mean = f.mean();
-//var stdDev = f.stanDeviate()
-//var variance = stdDev * stdDev;
-//var gaussian = require('gaussian');
-//window.g = gaussian;
 window.gaussian = require('gaussian');
-//var distribution = gaussian(mean, variance);
-////// Take a random sample using inverse transform sampling method. 
-//var sample = distribution.ppf(Math.random());
-//console.log("Sample: " + sample);
-//

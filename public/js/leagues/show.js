@@ -1,12 +1,9 @@
 $(function() {
-  console.log("Ready");
-
   var app = new Vue({
     el: '#app',
     data: {
       playoff_spots: 0,
       bye_week_spots: 0,
-      message: 'Hello Vue!',
       s: [],
       teams: [],
       ranker: {},
@@ -26,8 +23,8 @@ $(function() {
   })
 
   $.getJSON("/leagues.json", function( leagues ) {
-    console.log("leagues:", leagues);
     window.leagues = leagues;
+    console.log("Leagues: ", leagues);
     var league;
     for(var i = 0; i < leagues.length; i++){
       if(leagues[i].league_key == league_key){
@@ -36,7 +33,6 @@ $(function() {
       }
     }
     app.league = league;
-    console.log("League: ", league);
 
     var calc_bye_spots = function(teams) {
       var i;
@@ -48,18 +44,15 @@ $(function() {
     app.playoff_spots = league.settings.num_playoff_teams;
   });
 
-  var cached = "/cached"; // null out to load
-  //cached = '';
-  $.getJSON("/leagues/" + league_key + cached + "/json", function( scores ) {
-    console.log("Scores:", scores);
+  $.getJSON("/leagues/" + league_key + "/json", function( scores ) {
     window.scores = scores;
+    console.log("Scores: ", scores);
     app.message = 'Loaded!';
 
     window.r = new Ranker(10, scores);
     app.teams = window.r.teams;
     app.ranker = window.r;
     app.s = scores;
-    console.log(r.teams[8].ranks, r.teams[8]);
     var steps = 543;
     var target = 20000;
     var iterating = true;
@@ -70,15 +63,9 @@ $(function() {
       setTimeout(iter, 0);
     };
     $("#more_iterations").click(function(){
-      console.log("Clicked!");
       target += 10000;
       if (!iterating) { iterating = true; setTimeout(iter, 10) }
     });
     setTimeout(iter, 10);
   });
-
-
-  //$.getJSON("/leagues/371.l.1048861", function( data ) {
-    //debugger;
-  //});
 });
