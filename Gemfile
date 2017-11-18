@@ -1,4 +1,7 @@
 source 'https://rubygems.org' do
+
+  ruby '2.4.2'
+
   gem 'oauth2'
   gem 'sinatra'
   gem 'sinatra-contrib'
