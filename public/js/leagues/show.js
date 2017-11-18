@@ -26,10 +26,9 @@ $(function() {
   $.getJSON("/leagues.json", function( leagues ) {
     window.leagues = leagues;
     console.log("Leagues: ", leagues);
-    var league;
     for(var i = 0; i < leagues.length; i++){
       if(leagues[i].league_key == league_key){
-        league = leagues[i];
+        window.league = leagues[i];
         break;
       }
     }
