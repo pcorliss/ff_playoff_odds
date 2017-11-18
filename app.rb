@@ -28,6 +28,7 @@ end
 
 get '/sleep' do
   sleep 2
+  "Great!"
 end
 
 get '/leagues.json' do
