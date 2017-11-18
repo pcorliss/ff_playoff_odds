@@ -26,6 +26,10 @@ get '/leagues/:league_key' do
   haml :league
 end
 
+get '/sleep' do
+  sleep 2
+end
+
 get '/leagues.json' do
   league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
   @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
