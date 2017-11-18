@@ -32,6 +32,7 @@ get '/sleep' do
 end
 
 get '/leagues.json' do
+  raise
   league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
   @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
   content_type :json
@@ -39,6 +40,7 @@ get '/leagues.json' do
 end
 
 get '/leagues/:league_key/json' do
+  raise
   validate_league_key
   content_type :json
   scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")

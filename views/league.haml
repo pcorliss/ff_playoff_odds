@@ -6,7 +6,13 @@
     .hero-body
       .container
         %nav.columns
-          .column.has-text-centered{'v-if' => 'teams.length <= 0'}
+          .column.has-text-centered{'v-if' => 'error'}
+            %i.fa.fa-3x.fa-exclamation-triangle.is-danger{'aria-hidden' => 'true'}
+            %p.title.is-4{style: 'margin-top: 0.25em'}
+              %strong
+                Error!
+              %p {{ error }}
+          .column.has-text-centered{'v-if' => 'teams.length <= 0 && !error'}
             %i.fa.fa-3x.fa-spin.fa-cog{'aria-hidden' => 'true'}
             %p.title.is-4{style: 'margin-top: 0.25em'}
               %strong

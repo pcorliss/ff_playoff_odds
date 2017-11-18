@@ -7,7 +7,8 @@ $(function() {
       s: [],
       teams: [],
       ranker: {},
-      league: {}
+      league: {},
+      error: ''
     },
     methods: {
       spots: function(ranks, num_spots, iterations) {
@@ -42,6 +43,10 @@ $(function() {
 
     app.bye_week_spots = calc_bye_spots(league.settings.num_playoff_teams);
     app.playoff_spots = league.settings.num_playoff_teams;
+  }).fail(function(e) {
+    console.log("error", e);
+    window.e = e;
+    app.error = "Failed to load league data! Please try again. Debug: "+ e.status +" "+ e.getResponseHeader('date');
   });
 
   $.getJSON("/leagues/" + league_key + "/json", function( scores ) {
@@ -67,5 +72,9 @@ $(function() {
       if (!iterating) { iterating = true; setTimeout(iter, 10) }
     });
     setTimeout(iter, 10);
+  }).fail(function(e) {
+    console.log("error", e);
+    window.e = e;
+    app.error = "Failed to load matchup data! Please try again. Debug: "+ e.status +" "+ e.getResponseHeader('date');
   });
 });
