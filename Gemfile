@@ -4,6 +4,8 @@ source 'https://rubygems.org' do
   gem 'sinatra-contrib'
   gem 'haml'
   gem 'activesupport'
+  gem 'puma'
+  gem "rack-timeout"
 
   group :development do
     gem 'pry'
