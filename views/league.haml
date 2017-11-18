@@ -45,5 +45,4 @@
           %td{'v-for' => '(rank, idx, index) in team.ranks'}
             {{ rank ? (parseFloat((rank / (ranker.iterations || 1) * 100)).toFixed(2) + "%") : "" }}
 
-%script{:src => "/js/teams.js"}
 %script{:src => "/js/leagues/show.js"}

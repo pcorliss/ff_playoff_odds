@@ -45,3 +45,6 @@ Array.prototype.shuffle = function(){
 }
 
 window.gaussian = require('gaussian');
+window.Team = require('./team.js');
+window.Match = require('./match.js');
+window.Ranker = require('./ranker.js');
