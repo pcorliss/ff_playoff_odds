@@ -1,5 +1,11 @@
 %script
   var league_key = '#{params[:league_key]}';
+  var league_cached = null;
+  var scores_cached = null;
+  - if @league
+    var league_cached = #{@league.body.to_json};
+  - if @scores
+    var scores_cached = #{@scores.body.to_json};
 
 #app
   %section.hero.is-primary

@@ -55,7 +55,7 @@ Week,Away Team,Away Owner,at,Team,Owner,Results
 * ~Add Spinners/Loaders~
 * ~Run More Iterations Button~
 * ~Handle Mid-Event stuff~
-* Get Hosted
+* ~Get Hosted~
 * Allow saving/caching/sharing of pages
 * ~Google Analytics~
 * ~Footers and Headers~

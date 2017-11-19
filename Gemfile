@@ -9,6 +9,9 @@ source 'https://rubygems.org' do
   gem 'activesupport'
   gem 'puma'
   gem "rack-timeout"
+  gem "pg"
+  gem 'sinatra-activerecord'
+  gem 'rake'
 
   group :development do
     gem 'pry'
