@@ -30,19 +30,16 @@
             %p.title.is-4
               End of Week {{ current_week(s) }}
             .sharing
-              %p.title.is-4
+              %span.title
                 Share |
-
+              %a#copyURL{'data-balloon-pos' => "right", target: '_blank', 'v-bind:href' => "sharing_url(s)"}
+                %i.fa.fa-2x.fa-bookmark
               %a{target: '_blank', 'v-bind:href' => "'https://twitter.com/intent/tweet?text=%23FFOdds%20' + escape(sharing_url(s))"}
                 %i.fa.fa-2x.fa-twitter
               %a{target: '_blank', 'v-bind:href' => "'https://www.facebook.com/sharer/sharer.php?u=' + escape(sharing_url(s))"}
                 %i.fa.fa-2x.fa-facebook
-              %a#copyURL{target: '_blank', 'v-bind:href' => "sharing_url(s)"}
-                %i.fa.fa-2x.fa-bookmark
               %textarea#sharingURL{'v-show' => 'false'}
                 {{ sharing_url(s) }}
-              #copied.notification.is-info{'v-show' => 'false'}
-                Copied!
 
             %button#more_iterations.button.is-link.is-medium
               %span.icon

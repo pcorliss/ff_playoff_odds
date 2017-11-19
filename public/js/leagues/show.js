@@ -40,17 +40,23 @@ $(function() {
 
   $('#copyURL').click(function(e) {
     e.preventDefault();
-    var target = $('#sharingURL');
-    target.show();
-    target.select();
+    var textAreaURL = $('#sharingURL');
+    textAreaURL.show();
+    textAreaURL.select();
     var success = document.execCommand('copy');
-    target.hide();
+    textAreaURL.hide();
     console.log("Copying: ", success);
     if (success) {
-      var copied = $('#copied');
-      copied.show();
+      var copied = $('#copyURL');
+      copied.attr('data-balloon', 'Copied!');
+      copied.attr('data-balloon-visible', 'true');
       setTimeout(function() {
-        copied.fadeOut('slow');
+        copied.removeAttr('data-balloon-visible');
+
+        setTimeout(function() {
+          // Preserves the fade-out behavior
+          copied.removeAttr('data-balloon');
+        }, 1500);
       }, 1500);
     }
   })
