@@ -18,9 +18,41 @@ $(function() {
         return t.slice().sort(function(a,b){
           return b.ranks.slice(0, num_spots).sum() - a.ranks.slice(0, num_spots).sum();
         });
+      },
+      current_week: function(s) {
+        var max = 0;
+        for(var i = 1; i <= 20; i++){
+          if(s[i] && s[i][0]['status'] == 'postevent' && i > max) {
+            max = i;
+          }
+        }
+        return max;
+      },
+      sharing_url: function(s) {
+        if(window.location.href.includes('/week/')){
+          return window.location.href;
+        }
+        return window.location.href + '/week/' + this.current_week(s);
       }
     }
 
+  })
+
+  $('#copyURL').click(function(e) {
+    e.preventDefault();
+    var target = $('#sharingURL');
+    target.show();
+    target.select();
+    var success = document.execCommand('copy');
+    target.hide();
+    console.log("Copying: ", success);
+    if (success) {
+      var copied = $('#copied');
+      copied.show();
+      setTimeout(function() {
+        copied.fadeOut('slow');
+      }, 1500);
+    }
   })
 
   var calc_bye_spots = function(teams) {

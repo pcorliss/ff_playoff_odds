@@ -57,11 +57,12 @@ end
 get '/leagues/:league_key/week/:week' do
   validate_league_key
   @league = League.find_by_yahoo_id(params[:league_key])
-  @scores = @league.scores.find_by_week(params[:week].to_i - 1)
+  @scores = @league.scores.find_by_week(params[:week].to_i)
   if @scores && @league
     haml :league
   else
-    status 404
+    # Cache Miss
+    redirect "/leagues/#{params[:league_key]}"
   end
 end
 
