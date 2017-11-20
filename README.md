@@ -56,7 +56,7 @@ Week,Away Team,Away Owner,at,Team,Owner,Results
 * ~Run More Iterations Button~
 * ~Handle Mid-Event stuff~
 * ~Get Hosted~
-* Allow saving/caching/sharing of pages
+* ~Allow saving/caching/sharing of pages~
 * ~Google Analytics~
 * ~Footers and Headers~
 * ~Remove caching and temporary code~
@@ -64,3 +64,4 @@ Week,Away Team,Away Owner,at,Team,Owner,Results
 * Best Case Scenario (Beat blank, foo loses, etc..) Display
 * ~Add Icons/Graphics~
 * Allow tweaking of match results
+* Clean up and dedupe JS

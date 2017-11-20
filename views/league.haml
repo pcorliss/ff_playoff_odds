@@ -24,20 +24,20 @@
               %strong
                 Loading
           .column.has-text-centered.league{'v-show' => 'teams.length > 0'}
-            -#%i.fa.fa-3x.fa-fighter-jet
-            %p.title{style: 'margin-top: 0.25em'}
-              {{ league.name }}
-            %p.title.is-4
+
+            %h3.title.is-2
+              %strong {{ league.name }}
+            %h4.subtitle.is-3
               End of Week {{ current_week(s) }}
-            .sharing
-              %span.title
-                Share |
+            %h4.subtitle.is-3.sharing
+              Share
+
               %a#copyURL{'data-balloon-pos' => "right", target: '_blank', 'v-bind:href' => "sharing_url(s)"}
-                %i.fa.fa-2x.fa-bookmark
+                %i.fa.fa-1x.fa-bookmark
               %a{target: '_blank', 'v-bind:href' => "'https://twitter.com/intent/tweet?text=%23FFOdds%20' + escape(sharing_url(s))"}
-                %i.fa.fa-2x.fa-twitter
+                %i.fa.fa-1x.fa-twitter
               %a{target: '_blank', 'v-bind:href' => "'https://www.facebook.com/sharer/sharer.php?u=' + escape(sharing_url(s))"}
-                %i.fa.fa-2x.fa-facebook
+                %i.fa.fa-1x.fa-facebook
               %textarea#sharingURL{'v-show' => 'false'}
                 {{ sharing_url(s) }}
 
