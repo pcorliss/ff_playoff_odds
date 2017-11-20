@@ -5,5 +5,4 @@ credentials.yaml
 yarn-error.log
 yarn.lock
 node_modules
-scores.json
 371*.json

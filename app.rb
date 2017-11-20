@@ -66,6 +66,16 @@ get '/leagues/:league_key/week/:week' do
   end
 end
 
+get '/demo' do
+  @league = League.find_by_yahoo_id('demo')
+  @scores = @league.scores.find_by_week(10)
+  haml :league
+end
+
+get '/demo/week/10' do
+  redirect '/demo'
+end
+
 get '/leagues/:league_key/csv' do
   validate_league_key
   scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
