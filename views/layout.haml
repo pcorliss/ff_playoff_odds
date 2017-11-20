@@ -36,6 +36,20 @@
     %script{:src => '//cdn.jsdelivr.net/npm/vue'}
     %script{:src => "/js/deps.min.js"}
   %body
+    %header.header
+      %nav#navbar.navbar.is-transparent{style: 'transform: translateY(0px);'}
+        .container
+          .navbar-brand
+            %a.navbar-item{href: '/'}
+              %img{src: '/images/football-24-102853.png', style: 'margin-right: 15px'}
+              FFOdds
+          %a.navbar-item{href: '/demo'}
+            Demo
+          %a.navbar-item{href: '/leagues'}
+            Leagues
+          %a.navbar-item{href: '/authorize'}
+            Re-Authorize
+
     = yield
 
     %footer.footer
