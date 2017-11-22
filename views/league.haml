@@ -51,24 +51,42 @@
 
   %section.section{style: 'overflow-x: auto'}
     %table.table.is-striped
+      -#I just can't get the colors right
+      -#%colgroup
+        %col
+        %col{'v-if' => 'playoff_spots > 0', style: 'background-color: #ddffff;'}
+        %col{'v-if' => 'bye_week_spots > 0', style: 'background-color: #cceeee;'}
+        %col{'v-for' => 'e in bye_week_spots', style: 'background-color: #cceeee;'}
+        %col{'v-for' => 'e in (playoff_spots - bye_week_spots)', style: 'background-color: #ddffff;'}
       %thead
         %tr
           %th Ranks
           %th{'v-if' => 'playoff_spots > 0'}
-            Playoffs ({{ playoff_spots }})
+            %em Playoffs ({{ playoff_spots }})
           %th{'v-if' => 'bye_week_spots > 0'}
-            Bye-Week ({{ bye_week_spots }})
+            %em Bye-Week ({{ bye_week_spots }})
           %th{'v-for' => '(team, team_id, index) in teams', 'v-if' => 'team'}
-            {{ team_id }}
+            %em{'v-if' => 'team_id <= playoff_spots'}
+              {{ team_id }}
+            %span{'v-else' => 'true'}
+              {{ team_id }}
       %tbody
         %tr{'v-for' => "(team, team_id, index) in sorted_spots(teams, playoff_spots)", 'v-if' => "team"}
           %th
             {{ team.name }}
           %td{'v-if' => 'playoff_spots > 0'}
-            {{ spots(team.ranks, playoff_spots, ranker.iterations) }}%
+            %em
+              {{ spots(team.ranks, playoff_spots, ranker.iterations) }}%
           %td{'v-if' => 'bye_week_spots > 0'}
-            {{ spots(team.ranks, bye_week_spots, ranker.iterations) }}%
+            %em
+              %strong {{ spots(team.ranks, bye_week_spots, ranker.iterations) }}%
           %td{'v-for' => '(rank, idx, index) in team.ranks'}
-            {{ rank ? (parseFloat((rank / (ranker.iterations || 1) * 100)).toFixed(2) + "%") : "" }}
+            %em{'v-if' => 'idx < bye_week_spots'}
+              %strong
+                {{ rank ? (parseFloat((rank / (ranker.iterations || 1) * 100)).toFixed(2) + "%") : "" }}
+            %em{'v-else-if' => 'idx < playoff_spots'}
+              {{ rank ? (parseFloat((rank / (ranker.iterations || 1) * 100)).toFixed(2) + "%") : "" }}
+            %span{'v-else' => 'true'}
+              {{ rank ? (parseFloat((rank / (ranker.iterations || 1) * 100)).toFixed(2) + "%") : "" }}
 
 %script{:src => "/js/leagues/show.js"}
