@@ -40,7 +40,7 @@ get '/leagues.json' do
   begin
     League.find_or_create_from_hash(@leagues)
   rescue Exception => e
-    puts "Error: #{e.stacktrace}"
+    puts "Error: #{e.backtrace}"
     puts @leagues.inspect
   end
   content_type :json
