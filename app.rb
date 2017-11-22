@@ -37,10 +37,14 @@ end
 get '/leagues.json' do
   league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
   @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
-  League.find_or_create_from_hash(@leagues)
+  begin
+    League.find_or_create_from_hash(@leagues)
+  rescue Exception => e
+    puts "Error: #{e.stacktrace}"
+    puts @leagues.inspect
+  end
   content_type :json
   @leagues.to_json
-
 end
 
 # Can we pull this from the DB to save on time?
