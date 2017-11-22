@@ -37,11 +37,13 @@ end
 get '/leagues.json' do
   league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
   @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
+  @leagues = [@leagues] if @leagues.is_a? Hash
   begin
     League.find_or_create_from_hash(@leagues)
   rescue Exception => e
     puts "Error: #{e.backtrace}"
     puts @leagues.inspect
+    raise e
   end
   content_type :json
   @leagues.to_json
