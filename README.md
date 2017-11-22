@@ -65,3 +65,8 @@ Week,Away Team,Away Owner,at,Team,Owner,Results
 * ~Add Icons/Graphics~
 * Allow tweaking of match results
 * Clean up and dedupe JS
+* Exportable results
+* Division Support - 45891
+* Broken League - 12719
+* Fix json_csrf
+  * https://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/

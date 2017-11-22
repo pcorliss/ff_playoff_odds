@@ -10,6 +10,7 @@ require './app/models/score.rb'
 require_relative 'helpers.rb'
 
 set :session_secret, session_secret
+set :protection, :except => :json_csrf
 enable :sessions
 
 get '/' do
@@ -54,9 +55,17 @@ get '/leagues/:league_key/json' do
   validate_league_key
   l = League.find_by_yahoo_id(params[:league_key])
   content_type :json
-  scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
-  @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
-  Score.find_or_create_from_hash(@scores, l)
+  begin
+    scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
+    @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
+    Score.find_or_create_from_hash(@scores, l)
+  rescue Exception => e
+    puts "Error: #{e.backtrace}"
+    puts l.inspect
+    puts @scores.inspect
+    puts scoreboard_response.body.inspect
+    raise e
+  end
   @scores.to_json
 end
 
