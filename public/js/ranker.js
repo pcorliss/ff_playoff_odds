@@ -29,6 +29,7 @@
   Ranker.prototype.compute = function() {
     for (var i = 1; i < this.teams.length; i++) {
       var team = this.teams[i];
+      if (!team) { continue; }
       for (var j = 0; j < team.matches.length; j++) {
         var match = team.matches[j];
         if (!(match.computed)) {
@@ -45,6 +46,7 @@
 
   Ranker.prototype.reset = function() {
     for(var i = 1; i < this.teams.length; i++) {
+      if (!this.teams[i]) { continue; }
       this.teams[i].reset();
     }
   };
@@ -56,6 +58,7 @@
     clone.sort(Team.comparator);
 
     for(var i = 0; i < clone.length; i++) {
+      if (!clone[i]) { continue; }
       clone[i].ranks[i] = clone[i].ranks[i] || 0
       clone[i].ranks[i] += 1;
     }
