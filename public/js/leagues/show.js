@@ -64,63 +64,23 @@ $(function() {
   var calc_bye_spots = function(teams) {
     var i;
     for(i = 2; i <= teams; i *= 2) { }
-    return teams - (i / 2)
+    return teams - (i / 2);
   }
 
-
-  if (league_cached && scores_cached) {
-    console.log("Operating on cached data");
-    app.league = window.league = league_cached;
-    app.bye_week_spots = calc_bye_spots(league.settings.num_playoff_teams);
-    app.playoff_spots = league.settings.num_playoff_teams;
-    console.log("League: ", league);
-
-    app.scores = window.scores = scores_cached;
-    console.log("Scores: ", scores);
-
-    window.r = new Ranker(10, scores);
-    app.teams = window.r.teams;
-    app.ranker = window.r;
-    app.s = scores;
-    var steps = 543;
-    var target = 20000;
-    var iterating = true;
-    var iter = function() {
-      if (r.iterations >= target) { iterating = false; return }
-      var step = r.iterations + steps > target ? target - r.iterations : steps;
-      r.iterate(step);
-      setTimeout(iter, 0);
-    };
-    $("#more_iterations").click(function(){
-      target += 10000;
-      if (!iterating) { iterating = true; setTimeout(iter, 10) }
-    });
-    setTimeout(iter, 10);
-    return
-  }
-
-  console.log("No cache found calling Yahoo");
-
-  $.getJSON("/leagues.json", function( leagues ) {
+  var setLeagues = function(leagues) {
     window.leagues = leagues;
     console.log("Leagues: ", leagues);
     for(var i = 0; i < leagues.length; i++){
       if(leagues[i].league_key == league_key){
-        window.league = leagues[i];
+        app.league = window.league = leagues[i];
         break;
       }
     }
-    app.league = league;
+    app.bye_week_spots = calc_bye_spots(window.league.settings.num_playoff_teams);
+    app.playoff_spots = window.league.settings.num_playoff_teams;
+  };
 
-    app.bye_week_spots = calc_bye_spots(league.settings.num_playoff_teams);
-    app.playoff_spots = league.settings.num_playoff_teams;
-  }).fail(function(e) {
-    console.log("error", e);
-    window.e = e;
-    app.error = "Failed to load league data! Please try again. Debug: "+ e.status +" "+ e.getResponseHeader('date');
-  });
-
-  $.getJSON("/leagues/" + league_key + "/json", function( scores ) {
+  var setScores = function(scores) {
     window.scores = scores;
     console.log("Scores: ", scores);
 
@@ -142,6 +102,28 @@ $(function() {
       if (!iterating) { iterating = true; setTimeout(iter, 10) }
     });
     setTimeout(iter, 10);
+  }
+
+
+  if (league_cached && scores_cached) {
+    console.log("Operating on cached data");
+    setLeagues([league_cached]);
+    setScores(scores_cached);
+    return;
+  }
+
+  console.log("No cache found calling Yahoo");
+
+  $.getJSON("/leagues.json", function( leagues ) {
+    setLeagues(leagues);
+  }).fail(function(e) {
+    console.log("error", e);
+    window.e = e;
+    app.error = "Failed to load league data! Please try again. Debug: "+ e.status +" "+ e.getResponseHeader('date');
+  });
+
+  $.getJSON("/leagues/" + league_key + "/json", function( scores ) {
+    setScores(scores)
   }).fail(function(e) {
     console.log("error", e);
     window.e = e;

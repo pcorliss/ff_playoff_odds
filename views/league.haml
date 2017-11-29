@@ -1,5 +1,5 @@
 %script
-  var league_key = '#{params[:league_key]}';
+  var league_key = '#{@league_key || params[:league_key]}';
   var league_cached = null;
   var scores_cached = null;
   - if @league

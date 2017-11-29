@@ -82,6 +82,7 @@ get '/leagues/:league_key/week/:week' do
 end
 
 get '/demo' do
+  @league_key = '371.l.1048861'
   @league = League.find_by_yahoo_id('demo')
   @scores = @league.scores.find_by_week(10)
   haml :league
