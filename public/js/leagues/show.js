@@ -18,7 +18,13 @@ $(function() {
       },
       sorted_spots: function(t, num_spots) {
         return t.slice().sort(function(a,b){
-          return b.ranks.slice(0, num_spots).sum() - a.ranks.slice(0, num_spots).sum();
+          for(var i = 0; i < Math.max(a.ranks.length, b.ranks.length); i++) {
+            if ((b.ranks[i] || 0) > (a.ranks[i] || 0)) {
+              return 1;
+            } else if ((b.ranks[i] || 0) < (a.ranks[i] || 0)) {
+              return -1;
+            }
+          }
         });
       }
     }
