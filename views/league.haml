@@ -28,18 +28,18 @@
             %h3.title.is-2
               %strong {{ league.name }}
             %h4.subtitle.is-3
-              End of Week {{ current_week(s) }}
+              End of Week {{ current_week }}
             %h4.subtitle.is-3.sharing
               Share
 
-              %a#copyURL{'data-balloon-pos' => "right", target: '_blank', 'v-bind:href' => "sharing_url(s)"}
+              %a#copyURL{'data-balloon-pos' => "right", target: '_blank', 'v-bind:href' => "sharing_url()"}
                 %i.fa.fa-1x.fa-bookmark
-              %a{target: '_blank', 'v-bind:href' => "'https://twitter.com/intent/tweet?text=%23FFOdds%20' + escape(sharing_url(s))"}
+              %a{target: '_blank', 'v-bind:href' => "'https://twitter.com/intent/tweet?text=%23FFOdds%20' + escape(sharing_url())"}
                 %i.fa.fa-1x.fa-twitter
-              %a{target: '_blank', 'v-bind:href' => "'https://www.facebook.com/sharer/sharer.php?u=' + escape(sharing_url(s))"}
+              %a{target: '_blank', 'v-bind:href' => "'https://www.facebook.com/sharer/sharer.php?u=' + escape(sharing_url())"}
                 %i.fa.fa-1x.fa-facebook
               %textarea#sharingURL{'v-show' => 'false'}
-                {{ sharing_url(s) }}
+                {{ sharing_url() }}
 
             %button#more_iterations.button.is-link.is-medium
               %span.icon

@@ -8,7 +8,8 @@ $(function() {
       teams: [],
       ranker: {},
       league: {},
-      error: ''
+      error: '',
+      current_week: 0
     },
     methods: {
       spots: function(ranks, num_spots, iterations) {
@@ -19,24 +20,14 @@ $(function() {
           return b.ranks.slice(0, num_spots).sum() - a.ranks.slice(0, num_spots).sum();
         });
       },
-      current_week: function(s) {
-        var max = 0;
-        for(var i = 1; i <= 20; i++){
-          if(s[i] && s[i][0]['status'] == 'postevent' && i > max) {
-            max = i;
-          }
-        }
-        return max;
-      },
-      sharing_url: function(s) {
+      sharing_url: function() {
         if(window.location.href.includes('/week/')){
           return window.location.href;
         }
-        return window.location.href + '/week/' + this.current_week(s);
+        return window.location.href + '/week/' + this.current_week;
       }
     }
-
-  })
+  });
 
   $('#copyURL').click(function(e) {
     e.preventDefault();
@@ -88,6 +79,13 @@ $(function() {
     app.teams = window.r.teams;
     app.ranker = window.r;
     app.s = scores;
+    var max = 0;
+    for(var i = 1; i <= 20; i++){
+      if(scores[i] && scores[i][0]['status'] == 'postevent' && i > max) {
+        max = i;
+      }
+    }
+    app.current_week = max;
     var steps = 543;
     var target = 20000;
     var iterating = true;
