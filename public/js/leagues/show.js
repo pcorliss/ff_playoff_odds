@@ -9,7 +9,8 @@ $(function() {
       ranker: {},
       league: {},
       error: '',
-      current_week: 0
+      current_week: 0,
+      sharing_url: window.location.href
     },
     methods: {
       spots: function(ranks, num_spots, iterations) {
@@ -19,12 +20,6 @@ $(function() {
         return t.slice().sort(function(a,b){
           return b.ranks.slice(0, num_spots).sum() - a.ranks.slice(0, num_spots).sum();
         });
-      },
-      sharing_url: function() {
-        if(window.location.href.includes('/week/')){
-          return window.location.href;
-        }
-        return window.location.href + '/week/' + this.current_week;
       }
     }
   });
@@ -71,6 +66,25 @@ $(function() {
     app.playoff_spots = window.league.settings.num_playoff_teams;
   };
 
+  var current_week = function(scores) {
+    var max = 0;
+    for(var i = 1; i <= 20; i++){
+      if(scores[i] && scores[i][0]['status'] == 'postevent' && i > max) {
+        max = i;
+      }
+    }
+    return max;
+  };
+
+  var sharing_url = function(current_week) {
+    if(window.location.href.includes('/week/')){
+      return window.location.href;
+    }
+    var url = window.location.href + '/week/' + current_week;
+    history.pushState(url, "", url);
+    return url;
+  };
+
   var setScores = function(scores) {
     window.scores = scores;
     console.log("Scores: ", scores);
@@ -79,13 +93,8 @@ $(function() {
     app.teams = window.r.teams;
     app.ranker = window.r;
     app.s = scores;
-    var max = 0;
-    for(var i = 1; i <= 20; i++){
-      if(scores[i] && scores[i][0]['status'] == 'postevent' && i > max) {
-        max = i;
-      }
-    }
-    app.current_week = max;
+    app.current_week = current_week(scores);
+    app.sharing_url = sharing_url(app.current_week);
     var steps = 543;
     var target = 20000;
     var iterating = true;
