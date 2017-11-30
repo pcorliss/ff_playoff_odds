@@ -16,6 +16,11 @@ $(function() {
       spots: function(ranks, num_spots, iterations) {
         return parseFloat(ranks.slice(0, num_spots).sum() / (iterations || 1) * 100).toFixed(2);
       },
+      friendly_rank: function(rank) {
+        if (rank > 3) { return rank + "th"; }
+        var ranks = ['1st', '2nd', '3rd'];
+        return ranks[rank - 1];
+      },
       sorted_spots: function(t, num_spots) {
         return t.slice().sort(function(a,b){
           for(var i = 0; i < Math.max(a.ranks.length, b.ranks.length); i++) {

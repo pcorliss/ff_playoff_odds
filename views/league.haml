@@ -67,9 +67,9 @@
             %em Bye-Week ({{ bye_week_spots }})
           %th{'v-for' => 'i in Number(league.num_teams || 0)'}
             %em{'v-if' => 'i <= playoff_spots'}
-              {{ i }}
+              {{ friendly_rank(i) }}
             %span{'v-else' => 'true'}
-              {{ i }}
+              {{ friendly_rank(i) }}
       %tbody
         %tr{'v-for' => "(team, team_id, index) in sorted_spots(teams, playoff_spots)", 'v-if' => "team"}
           %th
