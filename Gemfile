@@ -12,6 +12,7 @@ source 'https://rubygems.org' do
   gem "pg"
   gem 'sinatra-activerecord'
   gem 'rake'
+  gem 'sentry-raven'
 
   group :development do
     gem 'pry'

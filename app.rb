@@ -129,3 +129,7 @@ get '/oauth2/callback' do
   session[:last] = nil
   redirect next_page
 end
+
+get '/test/error' do
+  raise "A million bananas"
+end
