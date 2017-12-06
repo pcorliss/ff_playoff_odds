@@ -221,7 +221,10 @@ Ranker.prototype.load = function(scores) {
     if(scores[week]) {
       var matchups = scores[week];
       for(var i = 0; i < matchups.length; i++) {
-        new Match.from_json(this.teams, matchups[i]);
+        // This literally comes in as a stringified 0 or 1
+        if(matchups[i].is_playoffs === "0"){
+          new Match.from_json(this.teams, matchups[i]);
+        }
       }
     }
   }
@@ -377,9 +380,6 @@ Team.prototype.records = function(matches, cache) {
   tie = 0;
   for (_i = 0, _len = matches.length; _i < _len; _i++) {
     match = matches[_i];
-    //if (!(match.complete())) {
-      //continue;
-    //}
     a = match.a_points;
     b = match.b_points;
     if (match.a_team.id !== this.id) {

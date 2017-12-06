@@ -20,7 +20,10 @@ Ranker.prototype.load = function(scores) {
     if(scores[week]) {
       var matchups = scores[week];
       for(var i = 0; i < matchups.length; i++) {
-        new Match.from_json(this.teams, matchups[i]);
+        // This literally comes in as a stringified 0 or 1
+        if(matchups[i].is_playoffs === "0"){
+          new Match.from_json(this.teams, matchups[i]);
+        }
       }
     }
   }

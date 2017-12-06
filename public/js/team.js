@@ -104,9 +104,6 @@ Team.prototype.records = function(matches, cache) {
   tie = 0;
   for (_i = 0, _len = matches.length; _i < _len; _i++) {
     match = matches[_i];
-    //if (!(match.complete())) {
-      //continue;
-    //}
     a = match.a_points;
     b = match.b_points;
     if (match.a_team.id !== this.id) {
