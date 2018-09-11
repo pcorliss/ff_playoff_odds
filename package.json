@@ -5,7 +5,6 @@
   "author": "Philip Corliss <pcorliss@50projects.com>",
   "dependencies": {
     "browserify": "^16.2",
-    "coffeescript": "^2.3",
     "gaussian": "^1.1",
     "uglify-js": "^3.4",
     "yarn": "^1.10"
