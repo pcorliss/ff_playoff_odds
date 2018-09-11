@@ -352,6 +352,7 @@ Team.prototype.fake_score = function() {
   this.scores || (this.scores = this.real_scores());
   this.mean || (this.mean = this.scores.mean());
   this.stddev || (this.stddev = this.scores.stanDeviate());
+  this.stddev || (this.stddev = 20); // In the event that there's no std-deviation (week 1)
   this.distribution || (this.distribution = window.gaussian(this.mean, this.stddev * this.stddev));
   return this.distribution.ppf(Math.random()).toFixed(2);
 };

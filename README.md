@@ -1,8 +1,6 @@
 # Fantasy Football Playoff Odds Calculator
 
-It's quick, dirty, slow, and likely has a few bugs but otherwise works as expected.
-Uses win percentage, then points-for as a tie-breaker. Top 4 teams enter
-the playoffs.
+http://ffodds.50projects.com/
 
 ## Building
 
@@ -66,7 +64,31 @@ Week,Away Team,Away Owner,at,Team,Owner,Results
 * Allow tweaking of match results
 * Clean up and dedupe JS
 * Exportable results
-* Division Support - 45891
-* Broken League - 12719
+* ~Fixed Leagues - 12719, 417490, 547959 371.l.278424 371.l.29221, 211544, 82981~
+* Support head to head tie-breakers
+* Division Support - 45891, 45891
+* ?? 371.l.395119
 * Fix json_csrf
   * https://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/
+
+* Average total season points and standard deviation
+* Average total number of wins
+* Average points and standard deviation for whatever the next week is,
+  plus graph
+* Show example of scenario
+* Division support
+* H2H tie-breaker support
+* Previous week display support
+* Flavor text or helper text
+* SEO optimization
+* ESPN Support
+* ~1st vs 1 2nd vs 2~
+* ~Donate Button~
+* ~Fix Sorting~
+* ~Push state for URL~
+
+https://api.myfantasyleague.com/2017/api_info
+
+### Maintenance
+
+`heroku pg:backups:capture && heroku pg:backups:download && pg_restore --verbose --clean --no-acl --no-owner -h localhost -U ffodds -d ffodds latest.dump`
