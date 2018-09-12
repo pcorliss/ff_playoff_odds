@@ -63,7 +63,6 @@ get '/leagues/:league_key/json' do
     puts "Error: #{e.backtrace}"
     puts l.inspect
     puts @scores.inspect
-    puts scoreboard_response.body.inspect
     raise e
   end
   @scores.to_json
