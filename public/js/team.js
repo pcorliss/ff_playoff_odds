@@ -93,6 +93,7 @@ Team.prototype.wins = function() {
   return this.records()[0];
 };
 
+// TODO is cache a string "default"?
 Team.prototype.records = function(matches, cache) {
   var matches = (typeof matches !== 'undefined') ?  matches : this.matches;
   var cache = (typeof cache !== 'undefined') ?  cache : 'default';
@@ -105,8 +106,8 @@ Team.prototype.records = function(matches, cache) {
   tie = 0;
   for (_i = 0, _len = matches.length; _i < _len; _i++) {
     match = matches[_i];
-    a = match.a_points;
-    b = match.b_points;
+    a = Number(match.a_points);
+    b = Number(match.b_points);
     if (match.a_team.id !== this.id) {
       tmp = a;
       a = b;
