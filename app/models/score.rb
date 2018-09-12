@@ -13,13 +13,10 @@ class Score < ActiveRecord::Base
   end
 
   def self.week_from_hash(h)
-    # What about 0 ?
-    h.max_by do |key, val|
-      if val.first['status'] == 'postevent'
-        key.to_i
-      else
-        0
-      end
-    end.first.to_i
+    h.select do |k,v|
+      v.first['status'] == 'postevent'
+    end.keys.map do |k|
+      k.to_i
+    end.max || 0
   end
 end
