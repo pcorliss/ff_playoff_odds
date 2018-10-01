@@ -34,7 +34,10 @@
 
     %script{:src => "//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"}
     %script{:src => '//cdn.jsdelivr.net/npm/vue'}
-    %script{:src => "/js/deps.min.js"}
+    - if ENV['RACK_ENV'] == 'development'
+      %script{:src => "/js/deps.dev.js"}
+    - else
+      %script{:src => "/js/deps.min.js"}
   %body
     %header.header
       %nav#navbar.navbar.is-transparent{style: 'transform: translateY(0px);'}

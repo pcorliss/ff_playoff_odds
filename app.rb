@@ -116,6 +116,25 @@ get '/leagues/:league_key/csv' do
   end
 end
 
+if ENV['RACK_ENV'] == 'development'
+  get '/admin' do
+    #@leagues = League.all.includes(:scores)
+    @leagues = League.where('yahoo_id LIKE ?', "380%").includes(:scores)
+    haml :admin
+  end
+
+  get '/admin/league_data/:league_key/json' do
+    content_type :json
+    League.find_by_yahoo_id(params[:league_key]).to_json
+  end
+
+  get '/admin/league_data/:league_key/week/:week/json' do
+    content_type :json
+    l = League.find_by_yahoo_id(params[:league_key])
+    l.scores.find_by_week(params[:week]).to_json
+  end
+end
+
 get '/authorize' do
   redirect client.auth_code.authorize_url(:redirect_uri => redirect_uri)
 end

@@ -1,0 +1,18 @@
+.content
+  %ul
+    - @leagues.each do |l|
+      %li
+        %a{href: "/admin/league_data/#{l.yahoo_id}/json"}
+          = l.yahoo_id
+        %ul
+          - l.scores.each do |s|
+            %li
+              Week
+              = s.week
+              %a{href: "/admin/league_data/#{l.yahoo_id}/week/#{s.week}/json"}
+                JSON
+              |
+              %a{href: "/leagues/#{l.yahoo_id}/week/#{s.week}"}
+                View
+              |
+              = s.created_at.in_time_zone("Pacific Time (US & Canada)")
