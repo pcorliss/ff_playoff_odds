@@ -36,13 +36,14 @@ get '/sleep' do
 end
 
 get '/leagues.json' do
-  league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
-  @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
-  @leagues = [@leagues] if @leagues.is_a? Hash
   begin
+    league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
+    @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
+    @leagues = [@leagues] if @leagues.is_a? Hash
     League.find_or_create_from_hash(@leagues)
   rescue Exception => e
     puts "Error: #{e.backtrace}"
+    puts league_response.body
     puts @leagues.inspect
     raise e
   end
@@ -61,6 +62,7 @@ get '/leagues/:league_key/json' do
     Score.find_or_create_from_hash(@scores, l)
   rescue Exception => e
     puts "Error: #{e.backtrace}"
+    puts scoreboard_response.inspect
     puts l.inspect
     puts @scores.inspect
     raise e
