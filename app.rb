@@ -38,7 +38,12 @@ end
 get '/leagues.json' do
   begin
     league_response = token.get('https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/settings')
-    @leagues = Hash.from_xml(league_response.body)['fantasy_content']['users']['user']['games']['game']['leagues']['league']
+    league_response_body = Hash.from_xml(league_response.body)
+    @leagues = league_response_body.dig('fantasy_content','users','user','games','game','leagues','league')
+    if @leagues.nil?
+      puts "WARN: No League Data Found in Response: #{league_response.body}"
+      @leagues = []
+    end
     @leagues = [@leagues] if @leagues.is_a? Hash
     League.find_or_create_from_hash(@leagues)
   rescue Exception => e
@@ -58,6 +63,12 @@ get '/leagues/:league_key/json' do
   content_type :json
   begin
     scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
+    scoreboard_response_body = Hash.from_xml(scoreboard_response.body)
+    raw_scores = scoreboard_response_body.dig('fantasy_content','league','scoreboard','matchups','matchup')
+    if raw_scores.nil?
+      puts "WARN: No Score Data Found in Response: #{scoreboard_response.body}"
+      return [].to_json
+    end
     @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
     Score.find_or_create_from_hash(@scores, l)
   rescue Exception => e
