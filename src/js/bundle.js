@@ -44,6 +44,10 @@ Array.prototype.shuffle = function(){
   return this;
 }
 
+Number.prototype.round = function(digits){
+  return Math.round(this * Math.pow(10, digits)) / Math.pow(10, digits);
+};
+
 window.gaussian = require('gaussian');
 window.Team = require('./team.js');
 window.Match = require('./match.js');

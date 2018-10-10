@@ -160,6 +160,10 @@ Array.prototype.shuffle = function(){
   return this;
 }
 
+Number.prototype.round = function(digits){
+  return Math.round(this * Math.pow(10, digits)) / Math.pow(10, digits);
+};
+
 window.gaussian = require('gaussian');
 window.Team = require('./team.js');
 window.Match = require('./match.js');
@@ -351,6 +355,8 @@ Team.prototype.head_matches = function(other) {
 Team.prototype.fake_score = function() {
   this.scores || (this.scores = this.real_scores());
   this.mean || (this.mean = this.scores.mean());
+  this.max || (this.max = Math.max.apply(null, this.scores));
+  this.min || (this.min = Math.min.apply(null, this.scores));
   this.stddev || (this.stddev = this.scores.stanDeviate());
   this.stddev || (this.stddev = 20); // In the event that there's no std-deviation (week 1)
   this.distribution || (this.distribution = window.gaussian(this.mean, this.stddev * this.stddev));

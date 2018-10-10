@@ -107,7 +107,7 @@ $(function() {
     app.current_week = current_week(scores);
     app.sharing_url = sharing_url(app.current_week);
     var steps = 543;
-    var target = 20000;
+    var target = 20;
     var iterating = true;
     var iter = function() {
       if (r.iterations >= target) { iterating = false; return }
