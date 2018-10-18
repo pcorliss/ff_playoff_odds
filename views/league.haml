@@ -69,17 +69,19 @@
               .d
                 %p.heading Max
                 %p.title {{ team.max }}
+          .level
             .level-item.has-text-centered
               .d
                 %p.heading Win-Loss-Tie
                 %p.title {{ team.real_win_loss() }}
-          -#%dl
-            -#%dt Name
-            -#%dd {{ team.name }}
-            -#%dt Min - Avg - Max
-            -#%dd {{ team.min }} - {{ Number(team.mean).round(2) }} - {{ team.max }}
-            -#%dt Win - Loss - Tie
-            -#%dd {{ team.real_win_loss() }}
+            .level-item.has-text-centered
+              .d
+                %p.heading Points For
+                %p.title {{ team.points_for() }}
+            .level-item.has-text-centered
+              .d
+                %p.heading Points Against
+                %p.title {{ team.pointsAgainst() }}
 
       -# Best Scenario
       -# Potential Scenario for rank

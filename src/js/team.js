@@ -22,6 +22,14 @@ Team.prototype.my_score = function(match) {
   }
 };
 
+Team.prototype.opp_score = function(match) {
+  if (match.a_team.id === this.id) {
+    return Number(match.b_points);
+  } else {
+    return Number(match.a_points);
+  }
+};
+
 Team.prototype.real_scores = function() {
   var match, _i, _len, _ref, _results;
   _ref = this.real_matches();
@@ -153,7 +161,23 @@ Team.prototype.points_for = function() {
     }
     return _results;
   }).call(this)).reduce(function(t, s) {
-    return t + s;
+    return Number(t + s).round(2);
+  });
+};
+
+Team.prototype.pointsAgainst = function() {
+  var match;
+  return ((function() {
+    var _i, _len, _ref, _results;
+    _ref = this.matches;
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      match = _ref[_i];
+      _results.push(this.opp_score(match));
+    }
+    return _results;
+  }).call(this)).reduce(function(t, s) {
+    return Number(t + s).round(2);
   });
 };
 
