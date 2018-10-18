@@ -95,6 +95,15 @@ Team.prototype.wins = function() {
   return this.records()[0];
 };
 
+Team.prototype.real_win_loss = function() {
+  var r = this.records(this.real_matches(), 'real');
+  if (r[2] > 0) {
+    return  r[0] + "-" + r[1] + "-" + r[2];
+  } else {
+    return  r[0] + "-" + r[1];
+  }
+};
+
 // TODO is cache a string "default"?
 Team.prototype.records = function(matches, cache) {
   var matches = (typeof matches !== 'undefined') ?  matches : this.matches;

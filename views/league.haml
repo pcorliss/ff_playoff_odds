@@ -48,9 +48,17 @@
                 %strong
                   More Iterations ({{ ranker.iterations }})
 
+  .team_details
+    .detail{'v-for' => "(team, team_id, index) in sorted_spots(teams, playoff_spots)", 'v-if' => "team", 'v-bind:id' => '"team_details_" + team.id'}
+      {{ team.name }} | {{ team.id }}
+      |
+      {{ Number(team.mean).round(2) }} | {{ team.min }} | {{ team.max }} | {{ team.stddev }}
+      |
+      {{ team.real_win_loss() }}
+      |
+      -# Best Scenario
+      -# Potential Scenario for rank
 
-  %span{'data-balloon'=>"Whats up!",'data-balloon-pos'=>"up"}
-    Hover me!
 
   %section.section{style: 'overflow-x: auto'}
     %table.table.is-striped
@@ -76,10 +84,7 @@
       %tbody
         %tr{'v-for' => "(team, team_id, index) in sorted_spots(teams, playoff_spots)", 'v-if' => "team"}
           %th
-            %span{'data-balloon'=> "{{ team.min }}",'data-balloon-pos'=>"up"}
-              {{ team.name }}
-
-            -#- {{ Number(team.mean).round(2) }} {{ team.min }} {{ team.max }}
+            {{ team.name }}
           %td{'v-if' => 'playoff_spots > 0'}
             %em
               {{ spots(team.ranks, playoff_spots, ranker.iterations) }}%
