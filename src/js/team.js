@@ -72,7 +72,8 @@ Team.prototype.head_matches = function(other) {
   return _results;
 };
 
-Team.prototype.fake_score = function() {
+Team.prototype.calc_stats = function(){
+  if (this.cached_stats) { return; };
   this.scores || (this.scores = this.real_scores());
   this.mean || (this.mean = this.scores.mean());
   this.max || (this.max = Math.max.apply(null, this.scores));
@@ -80,6 +81,11 @@ Team.prototype.fake_score = function() {
   this.stddev || (this.stddev = this.scores.stanDeviate());
   this.stddev || (this.stddev = 20); // In the event that there's no std-deviation (week 1)
   this.distribution || (this.distribution = window.gaussian(this.mean, this.stddev * this.stddev));
+  this.cached_stats = true;
+};
+
+Team.prototype.fake_score = function() {
+  this.calc_stats();
   return this.distribution.ppf(Math.random()).toFixed(2);
 };
 

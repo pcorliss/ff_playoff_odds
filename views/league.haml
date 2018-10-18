@@ -49,15 +49,41 @@
                   More Iterations ({{ ranker.iterations }})
 
   .team_details
-    .detail{'v-for' => "(team, team_id, index) in sorted_spots(teams, playoff_spots)", 'v-if' => "team", 'v-bind:id' => '"team_details_" + team.id'}
-      {{ team.name }} | {{ team.id }}
-      |
-      {{ Number(team.mean).round(2) }} | {{ team.min }} | {{ team.max }} | {{ team.stddev }}
-      |
-      {{ team.real_win_loss() }}
-      |
+    .modal{'v-for' => "(team, team_id, index) in sorted_spots(teams, playoff_spots)", 'v-if' => "team", 'v-bind:id' => '"team_details_" + team.id'}
+      .modal-background
+      .modal-card
+        %header.modal-card-head
+          %p.modal-card-title {{ team.name }} Stats
+          %button.delete{'aria-label' => 'close'}
+        %section.modal-card-body
+          .level
+            .level-item.has-text-centered
+              .d
+                %p.heading Min
+                %p.title {{ team.min }}
+            .level-item.has-text-centered
+              .d
+                %p.heading Avg
+                %p.title {{ Number(team.mean).round(2) }}
+            .level-item.has-text-centered
+              .d
+                %p.heading Max
+                %p.title {{ team.max }}
+            .level-item.has-text-centered
+              .d
+                %p.heading Win-Loss-Tie
+                %p.title {{ team.real_win_loss() }}
+          -#%dl
+            -#%dt Name
+            -#%dd {{ team.name }}
+            -#%dt Min - Avg - Max
+            -#%dd {{ team.min }} - {{ Number(team.mean).round(2) }} - {{ team.max }}
+            -#%dt Win - Loss - Tie
+            -#%dd {{ team.real_win_loss() }}
+
       -# Best Scenario
       -# Potential Scenario for rank
+      -# Games Back?
 
 
   %section.section{style: 'overflow-x: auto'}
@@ -84,7 +110,8 @@
       %tbody
         %tr{'v-for' => "(team, team_id, index) in sorted_spots(teams, playoff_spots)", 'v-if' => "team"}
           %th
-            {{ team.name }}
+            %a.detail{'v-bind:data-target' => '"team_details_" + team.id'}
+              {{ team.name }}
           %td{'v-if' => 'playoff_spots > 0'}
             %em
               {{ spots(team.ranks, playoff_spots, ranker.iterations) }}%

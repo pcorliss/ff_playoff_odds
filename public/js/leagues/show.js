@@ -56,7 +56,17 @@ $(function() {
         }, 1500);
       }, 1500);
     }
-  })
+  });
+
+  $('body').on('click', 'a.detail', function(e) {
+    e.preventDefault();
+    var target = "#" + $(e.target).data('target');
+    $(target).addClass('is-active');
+  });
+
+  $('body').on('click', 'button.delete, .modal-background', function() {
+    $('.modal.is-active').removeClass('is-active');
+  });
 
   var calc_bye_spots = function(teams) {
     var i;
