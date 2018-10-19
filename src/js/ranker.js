@@ -65,6 +65,9 @@ Ranker.prototype.standings = function() {
   for(var i = 0; i < clone.length; i++) {
     if (!clone[i]) { continue; }
     clone[i].ranks[i] = clone[i].ranks[i] || 0
+    if(clone[i].ranks[i] == 0) {
+      //
+    }
     clone[i].ranks[i] += 1;
   }
 };

@@ -67,22 +67,37 @@
                 %p.title {{ Number(team.mean).round(2) }}
             .level-item.has-text-centered
               .d
+                %p.heading Med
+                %p.title {{ Number(team.median).round(2) }}
+            .level-item.has-text-centered
+              .d
                 %p.heading Max
                 %p.title {{ team.max }}
           .level
             .level-item.has-text-centered
               .d
-                %p.heading Win-Loss-Tie
+                %p.heading{'v-if' => 'team.real_record()[2] > 0'}
+                  Win-Loss-Tie
+                %p.heading{'v-else' => 'true'}
+                  Win-Loss
                 %p.title {{ team.real_win_loss() }}
             .level-item.has-text-centered
               .d
                 %p.heading Points For
-                %p.title {{ team.points_for() }}
+                %p.title {{ team.ptsFor }}
             .level-item.has-text-centered
               .d
                 %p.heading Points Against
-                %p.title {{ team.pointsAgainst() }}
-
+                %p.title {{ team.ptsAgainst }}
+          -#.level
+            %table.table.is-striped
+              %tr
+                %th Week
+                %th Team
+                %th Score
+                %th Team
+              -#%tr
+                %td
       -# Best Scenario
       -# Potential Scenario for rank
       -# Games Back?

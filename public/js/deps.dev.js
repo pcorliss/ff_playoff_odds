@@ -130,6 +130,20 @@ Array.prototype.mean = function(){
   return this.sum() / this.length;
 };
 
+Array.prototype.median = function(){
+  var sorted = this.sort(function(a, b){return a - b});
+
+  if (sorted.length === 0) { return 0; };
+
+  var half = Math.floor(sorted.length / 2);
+
+  if (sorted.length % 2) {
+    return sorted[half];
+  } else {
+    return (sorted[half - 1] + sorted[half]) / 2.0;
+  }
+};
+
 Array.prototype.sum = function(){
   var i,total = 0;
   for(i=0;i<this.length;i+=1){
@@ -270,6 +284,9 @@ Ranker.prototype.standings = function() {
   for(var i = 0; i < clone.length; i++) {
     if (!clone[i]) { continue; }
     clone[i].ranks[i] = clone[i].ranks[i] || 0
+    if(clone[i].ranks[i] == 0) {
+      //
+    }
     clone[i].ranks[i] += 1;
   }
 };
@@ -369,6 +386,9 @@ Team.prototype.calc_stats = function(){
   this.stddev || (this.stddev = this.scores.stanDeviate());
   this.stddev || (this.stddev = 20); // In the event that there's no std-deviation (week 1)
   this.distribution || (this.distribution = window.gaussian(this.mean, this.stddev * this.stddev));
+  this.median || (this.median = this.scores.median());
+  this.ptsFor || (this.ptsFor = this.points_for(this.real_matches()));
+  this.ptsAgaint || (this.ptsAgainst = this.pointsAgainst(this.real_matches()));
   this.cached_stats = true;
 };
 
@@ -389,8 +409,12 @@ Team.prototype.wins = function() {
   return this.records()[0];
 };
 
+Team.prototype.real_record = function() {
+  return this.records(this.real_matches(), 'real');
+};
+
 Team.prototype.real_win_loss = function() {
-  var r = this.records(this.real_matches(), 'real');
+  var r = this.real_record();
   if (r[2] > 0) {
     return  r[0] + "-" + r[1] + "-" + r[2];
   } else {
@@ -398,7 +422,6 @@ Team.prototype.real_win_loss = function() {
   }
 };
 
-// TODO is cache a string "default"?
 Team.prototype.records = function(matches, cache) {
   var matches = (typeof matches !== 'undefined') ?  matches : this.matches;
   var cache = (typeof cache !== 'undefined') ?  cache : 'default';
@@ -429,11 +452,12 @@ Team.prototype.records = function(matches, cache) {
   return this.record[cache] = [win, loss, tie];
 };
 
-Team.prototype.points_for = function() {
+Team.prototype.points_for = function(matches) {
+  var matches = (typeof matches !== 'undefined') ?  matches : this.matches;
   var match;
   return ((function() {
     var _i, _len, _ref, _results;
-    _ref = this.matches;
+    _ref = matches;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       match = _ref[_i];
@@ -445,11 +469,12 @@ Team.prototype.points_for = function() {
   });
 };
 
-Team.prototype.pointsAgainst = function() {
+Team.prototype.pointsAgainst = function(matches) {
+  var matches = (typeof matches !== 'undefined') ?  matches : this.matches;
   var match;
   return ((function() {
     var _i, _len, _ref, _results;
-    _ref = this.matches;
+    _ref = matches;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       match = _ref[_i];

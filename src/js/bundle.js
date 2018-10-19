@@ -14,6 +14,20 @@ Array.prototype.mean = function(){
   return this.sum() / this.length;
 };
 
+Array.prototype.median = function(){
+  var sorted = this.sort(function(a, b){return a - b});
+
+  if (sorted.length === 0) { return 0; };
+
+  var half = Math.floor(sorted.length / 2);
+
+  if (sorted.length % 2) {
+    return sorted[half];
+  } else {
+    return (sorted[half - 1] + sorted[half]) / 2.0;
+  }
+};
+
 Array.prototype.sum = function(){
   var i,total = 0;
   for(i=0;i<this.length;i+=1){
