@@ -1,17 +1,17 @@
 source 'https://rubygems.org' do
 
-  ruby '2.5.1'
+  ruby '2.7.1'
 
   gem 'oauth2'
   gem 'sinatra'
   gem 'sinatra-contrib'
   gem 'haml'
-  gem 'activesupport'
-  gem 'puma'
+  gem 'activesupport', ">= 5.2.4.5", "< 6.0"
+  gem 'puma', ">= 3.12.4"
   gem "rack-timeout"
   gem "pg"
-  gem 'sinatra-activerecord'
-  gem 'rake'
+  gem 'sinatra-activerecord', ">=2.0.22"
+  gem 'rake', ">= 12.3.3"
   gem 'sentry-raven'
 
   group :development do
