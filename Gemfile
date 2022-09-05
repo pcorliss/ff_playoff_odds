@@ -15,10 +15,11 @@ source 'https://rubygems.org' do
   # gem 'sentry-raven'
 
   group :development do
-    gem 'pry'
-    gem 'shotgun'
-    gem 'descriptive_statistics'
-    gem 'rubystats'
+    # gem 'pry'
+    # gem 'shotgun'
+    # gem 'descriptive_statistics'
+    # gem 'rubystats'
+
     # gem 'guard'
     # gem 'guard-bundler'
     # gem 'guard-uglify'
