@@ -1,6 +1,6 @@
 source 'https://rubygems.org' do
 
-  ruby '2.7.1'
+  ruby '2.7.6'
 
   gem 'oauth2'
   gem 'sinatra'
@@ -19,9 +19,9 @@ source 'https://rubygems.org' do
     gem 'shotgun'
     gem 'descriptive_statistics'
     gem 'rubystats'
-    gem 'guard'
-    gem 'guard-bundler'
-    gem 'guard-uglify'
-    gem 'guard-shell'
+    # gem 'guard'
+    # gem 'guard-bundler'
+    # gem 'guard-uglify'
+    # gem 'guard-shell'
   end
 end
