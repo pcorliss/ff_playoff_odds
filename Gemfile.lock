@@ -82,21 +82,21 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (>= 5.2.4.5, < 6.0)!
-  descriptive_statistics!
-  haml!
-  oauth2!
-  pg!
-  pry!
-  puma (>= 3.12.4)!
-  rack-timeout!
-  rake (>= 12.3.3)!
-  rubystats!
-  sentry-raven!
-  shotgun!
-  sinatra!
-  sinatra-activerecord (>= 2.0.22)!
-  sinatra-contrib!
+  activesupport (>= 5.2.4.5, < 6.0)
+  descriptive_statistics
+  haml
+  oauth2
+  pg
+  pry
+  puma (>= 3.12.4)
+  rack-timeout
+  rake (>= 12.3.3)
+  rubystats
+  sentry-raven
+  shotgun
+  sinatra
+  sinatra-activerecord (>= 2.0.22)
+  sinatra-contrib
 
 RUBY VERSION
    ruby 2.7.6p219
