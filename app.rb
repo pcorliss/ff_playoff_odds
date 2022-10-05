@@ -62,14 +62,25 @@ get '/leagues/:league_key/json' do
   l = League.find_by_yahoo_id(params[:league_key])
   content_type :json
   begin
-    scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
+    scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard")
+
     scoreboard_response_body = Hash.from_xml(scoreboard_response.body)
     raw_scores = scoreboard_response_body.dig('fantasy_content','league','scoreboard','matchups','matchup')
     if raw_scores.nil?
       puts "WARN: No Score Data Found in Response: #{scoreboard_response.body}"
       return [].to_json
     end
+
     @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
+
+    start_week = scoreboard_response_body.dig('fantasy_content','league','start_week').to_i
+    current_week = scoreboard_response_body.dig('fantasy_content','league','current_week').to_i
+
+    (start_week...current_week).to_a.reverse.each do |week|
+      scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=#{week}")
+      @scores.merge!(Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']})
+    end
+
     Score.find_or_create_from_hash(@scores, l)
   rescue Exception => e
     puts "Error: #{e.backtrace}"
