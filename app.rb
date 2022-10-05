@@ -155,6 +155,7 @@ end
 get '/oauth2/callback' do
   access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
   session[:access_token] = access_token.to_hash
+  puts "Access Token: #{access_token.to_hash}"
   @message = "Successfully authenticated with the server"
   next_page = session[:last] || '/leagues'
   session[:last] = nil
