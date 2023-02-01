@@ -6,7 +6,7 @@ gem 'oauth2'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'haml'
-gem 'activesupport', ">= 5.2.4.5", "< 6.0"
+gem 'activesupport', ">= 5.2.4.5", "< 7.0"
 gem 'puma', ">= 3.12.4"
 gem "rack-timeout"
 gem "pg"
