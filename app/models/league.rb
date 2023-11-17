@@ -14,4 +14,19 @@ class League < ActiveRecord::Base
       l
     end
   end
+
+  def uses_playoffs?
+    body.dig('settings', 'uses_playoff') == '1'
+  end
+
+  def week_range
+    start_week = body.dig('start_week').to_i
+    if uses_playoffs?
+      playoff_week = body.dig('settings','playoff_start_week').to_i
+      last_week = playoff_week - 1
+    else
+      last_week = body.dig('end_week').to_i
+    end
+    (start_week..last_week)
+  end
 end

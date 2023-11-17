@@ -61,9 +61,9 @@ get '/leagues/:league_key/json' do
   validate_league_key
   l = League.find_by_yahoo_id(params[:league_key])
   content_type :json
-  begin
-    scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard")
 
+  begin
+    scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=#{l.week_range.to_a.join(',')}")
     scoreboard_response_body = Hash.from_xml(scoreboard_response.body)
     raw_scores = scoreboard_response_body.dig('fantasy_content','league','scoreboard','matchups','matchup')
     if raw_scores.nil?
@@ -73,13 +73,7 @@ get '/leagues/:league_key/json' do
 
     @scores = Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']}
 
-    start_week = scoreboard_response_body.dig('fantasy_content','league','start_week').to_i
-    current_week = scoreboard_response_body.dig('fantasy_content','league','current_week').to_i
 
-    (start_week...current_week).to_a.reverse.each do |week|
-      scoreboard_response = token.get("https://fantasysports.yahooapis.com/fantasy/v2/league/#{params[:league_key]}/scoreboard;week=#{week}")
-      @scores.merge!(Hash.from_xml(scoreboard_response.body)['fantasy_content']['league']['scoreboard']['matchups']['matchup'].group_by {|h| h['week']})
-    end
 
     Score.find_or_create_from_hash(@scores, l)
   rescue Exception => e
