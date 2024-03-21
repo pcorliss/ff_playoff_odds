@@ -7,5 +7,6 @@
 **/yarn.lock
 **/node_modules
 **/371*.json
-**/latest.dump*
+**/*.dump*
 fly.toml
+
