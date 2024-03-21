@@ -1,5 +1,7 @@
 class League < ActiveRecord::Base
   has_many :scores
+  attribute :body_compressed, :binary_hash
+  alias_attribute :body, :body_compressed
 
   def self.find_or_create_from_hash(h)
     h.map do |league_json|
