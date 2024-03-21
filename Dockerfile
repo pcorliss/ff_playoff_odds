@@ -25,6 +25,11 @@ RUN bundle install
 # Final stage for app image
 FROM base
 
+# Install packages needed for deployment
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y postgresql-client && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
 # Run and own the application files as a non-root user for security
 RUN useradd ruby --home /app --shell /bin/bash
 USER ruby:ruby
