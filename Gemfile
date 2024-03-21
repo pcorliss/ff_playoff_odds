@@ -5,7 +5,7 @@ ruby '2.7.6'
 gem 'oauth2'
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'haml'
+gem 'haml', '< 6.0' # escape_html defaults to true in haml 6
 gem 'activesupport'
 gem 'puma', ">= 3.12.4"
 gem "rack-timeout"
