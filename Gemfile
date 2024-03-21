@@ -12,6 +12,7 @@ gem "rack-timeout"
 gem "pg"
 gem 'sinatra-activerecord', ">=2.0.22"
 gem 'rake', ">= 12.3.3"
+gem "rackup", "~> 2.1"
 
 group :development do
   gem 'pry'
