@@ -1,4 +1,7 @@
 class Score < ActiveRecord::Base
+  attribute :body_compressed, :binary_hash
+  alias_attribute :body, :body_compressed
+
   belongs_to :league
 
   def self.find_or_create_from_hash(h, l)
@@ -18,5 +21,9 @@ class Score < ActiveRecord::Base
     end.keys.map do |k|
       k.to_i
     end.max || 0
+  end
+
+  def inspect
+    "#<Score id: #{id}, league_id: #{league_id} week: #{week} Body: #{body.to_s.length}>"
   end
 end

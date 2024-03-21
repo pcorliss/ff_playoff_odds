@@ -4,6 +4,7 @@ require 'oauth2'
 require 'haml'
 require 'active_support/core_ext/hash'
 require 'sinatra/activerecord'
+require './config/initializers/types.rb'
 require './app/models/league.rb'
 require './app/models/score.rb'
 
