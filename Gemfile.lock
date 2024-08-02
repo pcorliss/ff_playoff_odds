@@ -71,7 +71,8 @@ GEM
       rack (>= 3)
       webrick (~> 1.8)
     rake (13.1.0)
-    rexml (3.2.6)
+    rexml (3.3.3)
+      strscan
     ruby2_keywords (0.0.5)
     rubystats (0.4.1)
       matrix
@@ -95,6 +96,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
+    strscan (3.1.0)
     temple (0.10.3)
     tilt (2.3.0)
     timeout (0.4.1)
