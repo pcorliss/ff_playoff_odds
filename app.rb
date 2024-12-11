@@ -168,6 +168,11 @@ get '/oauth2/callback' do
   redirect next_page
 end
 
+get '/leak_session' do
+  content_type :json
+  {token: session[:access_token]}.to_json
+end
+
 get '/test/error' do
   raise "A million bananas"
 end
